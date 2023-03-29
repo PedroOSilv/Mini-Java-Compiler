@@ -1,2 +1,2 @@
 # Mini-Java-Compiler
-Etapa 1 - Análise Lexa
+Etapa 1 - Análise Lexica
