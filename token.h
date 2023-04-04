@@ -15,15 +15,18 @@ enum Names
     EQ,//6
     NE,//7
     GT,//8
-    GE,//9
-    LT,//10
-    LE,//11
-    SEP,//12
-    NUMBER,//13
-    DOUBLE_LITERAL,//14
-    FLOAT_LITERAL,//15
-    INTEGER_LITERAL,//16
-    END_OF_FILE//17
+    LT,//9
+    SEP,//10
+    NUMBER,//11
+    INTEGER_LITERAL,//12
+    AND,//13
+    PLUS,//14
+    MINUS,//15
+    MULTI,//16
+    DIV,//17
+    ATTR,//18
+    NOT,//19
+    END_OF_FILE//20
 };
 
 class Token 
