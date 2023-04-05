@@ -18,7 +18,7 @@ class Scanner
         Token* nextToken();        
     
         //Método para manipular erros
-        void lexicalError(string);
+        void lexicalError(string, int);
 
         //Método para mostrar nome dos tokens
         string returnName(int);
