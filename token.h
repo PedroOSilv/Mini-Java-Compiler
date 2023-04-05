@@ -17,16 +17,25 @@ enum Names
     GT,//8
     LT,//9
     SEP,//10
-    NUMBER,//11
-    INTEGER_LITERAL,//12
-    AND,//13
-    PLUS,//14
-    MINUS,//15
-    MULTI,//16
-    DIV,//17
-    ATTR,//18
-    NOT,//19
-    END_OF_FILE//20
+    OCB, //11 {
+    CCB, //12 }
+    OSB, //13 [
+    CSB, //14 ]
+    OPAR, //15 (
+    CPAR, //16 )
+    SC, //17 ;
+    CM, //18 ,
+    PN, //19 .
+    NUMBER,//20
+    INTEGER_LITERAL,//21
+    AND,//22
+    PLUS,//23
+    MINUS,//24
+    MULTI,//25
+    DIV,//26
+    ATTR,//27
+    NOT,//28
+    END_OF_FILE//29
 };
 
 class Token 
