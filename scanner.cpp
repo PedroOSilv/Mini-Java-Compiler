@@ -65,7 +65,7 @@ Scanner::nextToken()
                 Operadoes - state começa com o número 3
                 Separadores - state começa com o número 4
                 Palavras Reservadas - state começa com o número 5
-                Comentárois - state começa com o número 6
+                Comentários - state começa com o número 6
             */
             case 0:
                 //se for fim de arquivo
@@ -79,22 +79,6 @@ Scanner::nextToken()
 
                 //se for digito
                 else if(isdigit(input[pos]))
-                    state = 11;
-
-                //se for comentario ou o operador '/'
-                else if(input[pos]=='/')
-                    state = 101;
-                
-                //se for um separador
-                else if (input[pos]=='(' |
-                         input[pos]==')' |
-                         input[pos]=='[' |
-                         input[pos]==']' |
-                         input[pos]=='{' |
-                         input[pos]=='}' |
-                         input[pos]==';' |
-                         input[pos]=='.' |
-                         input[pos]==',')
                     state = 20;
 
                 // se for operadores
@@ -121,9 +105,41 @@ Scanner::nextToken()
 
                 else if(input[pos] == '!')
                     state = 301;
-                // operador 
-                //TODO
 
+                //se for um separador
+                else if (input[pos]=='(')
+                    state = 40;
+                
+                else if (input[pos]==')')
+                    state = 41;
+                
+                else if (input[pos]=='[')
+                    state = 42;
+
+                else if (input[pos]==']')
+                    state = 43;
+
+                else if (input[pos]=='{')
+                    state = 44;
+
+                else if (input[pos]=='}')
+                    state = 45;
+
+                else if (input[pos]==';')
+                    state = 46;
+                
+                else if (input[pos]=='.')
+                    state = 47;
+                
+                else if (input[pos]==',')
+                    state = 48;
+
+                //se for comentario ou o operador '/'
+                else if(input[pos]=='/')
+                    state = 60;
+                
+                else if(input[pos] == '\n')
+                    line += 1;
 
                 pos++;
                 break;
@@ -131,32 +147,27 @@ Scanner::nextToken()
             case 1:
                 //se for um id:
                 if(!isalnum(input[pos]))
-                    state = 2;
+                    state = 11;
                 pos++;
                 break;
 
-            case 2:
+            case 11:
                 //retorna um id
                 tok = new Token(ID);
                 pos--;
                 return tok;
                 
-            case 11:
+            case 20:
                 //se  for digito
                 if(!isdigit(input[pos]))
-                    state =12;
+                    state = 21;
                 pos++;
                 break;
 
-            case 12:
+            case 21:
                 //retorna digito
                 tok = new Token(NUMBER);
                 pos--;
-                return tok;
-            
-            case 20:
-                //caso seja um reparador
-                tok = new Token(SEP);
                 return tok;
 
             case 30:
@@ -170,7 +181,12 @@ Scanner::nextToken()
                 if(input[pos] == '&')
                     state = 32;
                 else
-                    lexicalError("Lexema não pertencente à linguagem MiniJava");
+                {
+                    string str = "";
+                    str += input[pos - 1];
+                    str += input[pos];
+                    lexicalError(str);
+                }
                 pos++;
                 break;
             
@@ -244,30 +260,75 @@ Scanner::nextToken()
                 pos--;
                 return tok;
 
-            case 101:
+            case 40:
+                // retorna token ( (OPAR)
+                tok = new Token(SEP, OPAR);
+                return tok;
+
+            case 41:
+                // retorna token ) (CPAR)
+                tok = new Token(SEP, CPAR);
+                return tok;
+
+            case 42:
+                // retorna token [ (OSB)
+                tok = new Token(SEP, OSB);
+                return tok;
+
+            case 43:
+                // retorna token ] (CSB)
+                tok = new Token(SEP, CSB);
+                return tok;
+
+            case 44:
+                // retorna token { (OCB)
+                tok = new Token(SEP, OCB);
+                return tok;
+
+            case 45:
+                // retorna token } (CCB)
+                tok = new Token(SEP, CCB);
+                return tok;
+
+            case 46:
+                // retorna token ; (SC)
+                tok = new Token(SEP, SC);
+                return tok;
+
+            case 47:
+                // retorna token . (CM)
+                tok = new Token(SEP, CM);
+                return tok;
+
+            case 48:
+                // retorna token , (PN)
+                tok = new Token(SEP, PN);
+                return tok;
+
+            case 60:
                 //se for um comentario ou um operador
                 if (input[pos] == '/')
-                    state = 102;
+                    state = 61;
                 else if(input[pos] == '*')
-                    state = 103;
+                    state = 62;
                 else
                     state = 30;
                 pos++;
                 break;
 
-            case 102:
+            case 61:
                 //quando chega no final do comentario
                 if (input[pos] == '\n')
                     state = 0;
                 pos++;
                 break;
-            case 103:
+            case 62:
                 //comentario de */
                 if (input[pos] == '*')
-                    state = 104;
+                    state = 63;
                 pos++;
                 break;
-            case 104:
+            case 63:
                 //comentario de */
                 if (input[pos] == '/')
                     state = 0;
@@ -278,16 +339,17 @@ Scanner::nextToken()
 }
 
 void 
-Scanner::lexicalError(string)
+Scanner::lexicalError(string lexeme)
 {
-    cout << "Token mal formado\n";
+    string errorText = "\nCompilation ERROR: \nO lexema " + lexeme + " não faz parte da linguagem MiniJava" + '\n';
+    cout << errorText;
     
     exit(EXIT_FAILURE);
 }
 
 string
 Scanner::returnName(int i){
-    string tokenNames[22] = {"UNDEF",
+    string tokenNames[30] = {"UNDEF",
                             "ID",
                             "IF",
                             "ELSE",
@@ -298,6 +360,15 @@ Scanner::returnName(int i){
                             "GT",
                             "LT",
                             "SEP",
+                            "OCB",
+                            "CCB",
+                            "OSB",
+                            "CSB",
+                            "OPAR",
+                            "CPAR",
+                            "SC",
+                            "CM",
+                            "PN",
                             "NUMBER",
                             "INTEGER_LITERAL",
                             "AND",
