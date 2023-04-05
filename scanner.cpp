@@ -140,13 +140,25 @@ Scanner::nextToken()
                 
                 else if(input[pos] == '\n')
                     line += 1;
+                
+                else if(input[pos] == '\t' ||
+                        input[pos] == '\r' ||
+                        input[pos] == '\f' ||
+                        input[pos] == ' ')
+                        ;
+                else
+                {
+                    string str = "";
+                    str += input[pos];
+                    lexicalError(str, line);
+                }
 
                 pos++;
                 break;
 
             case 1:
                 //se for um id:
-                if(!isalnum(input[pos]))
+                if(!isalnum(input[pos]) && input[pos] != '_')
                     state = 11;
                 pos++;
                 break;
@@ -185,7 +197,7 @@ Scanner::nextToken()
                     string str = "";
                     str += input[pos - 1];
                     str += input[pos];
-                    lexicalError(str);
+                    lexicalError(str, line);
                 }
                 pos++;
                 break;
@@ -319,19 +331,30 @@ Scanner::nextToken()
             case 61:
                 //quando chega no final do comentario
                 if (input[pos] == '\n')
+                {
+                    line += 1;
                     state = 0;
+                }
                 pos++;
                 break;
             case 62:
                 //comentario de */
                 if (input[pos] == '*')
                     state = 63;
+                else if (input[pos] == '\n')
+                    line += 1;
                 pos++;
                 break;
             case 63:
                 //comentario de */
                 if (input[pos] == '/')
                     state = 0;
+                else
+                {
+                    if (input[pos] == '\n')
+                        line += 1;
+                    state = 62;
+                }
                 pos++;
                 break;
         }
@@ -339,10 +362,13 @@ Scanner::nextToken()
 }
 
 void 
-Scanner::lexicalError(string lexeme)
+Scanner::lexicalError(string lexeme, int linha)
 {
-    string errorText = "\nCompilation ERROR: \nO lexema " + lexeme + " não faz parte da linguagem MiniJava" + '\n';
-    cout << errorText;
+    string errorText1 = "\nCompilation ERROR: \nO lexema " + lexeme + " (linha ";
+    cout << errorText1;
+    cout << linha;
+    string errorText2 = ") NAO faz parte da linguagem MiniJava \n";
+    cout << errorText2;
     
     exit(EXIT_FAILURE);
 }
