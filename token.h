@@ -8,34 +8,50 @@ enum Names
 {
     UNDEF,//0
     ID,//1
-    IF,//2
-    ELSE,//3
-    THEN,//4
-    RELOP,//5
-    EQ,//6
-    NE,//7
-    GT,//8
-    LT,//9
-    SEP,//10
-    OCB, //11 {
-    CCB, //12 }
-    OSB, //13 [
-    CSB, //14 ]
-    OPAR, //15 (
-    CPAR, //16 )
-    SC, //17 ;
-    CM, //18 ,
-    PN, //19 .
-    NUMBER,//20
-    INTEGER_LITERAL,//21
-    AND,//22
-    PLUS,//23
-    MINUS,//24
-    MULTI,//25
-    DIV,//26
-    ATTR,//27
-    NOT,//28
-    END_OF_FILE//29
+    BOOLEAN,//2
+    CLASS,//3
+    ELSE,//4
+    EXTENDS,//5
+    FALSE,//6
+    IF,//7
+    INT,//8
+    LENGTH,//9
+    MAIN,//10
+    NEW,//11
+    PUBLIC,//12
+    RETURN,//13
+    STATIC,//14
+    STRING,//15
+    SYSOUTPRINT,//16
+    THIS,//17
+    TRUE,//18
+    VOID,//19
+    WHILE,//20
+    RELOP,//21
+    EQ,//22
+    NE,//23
+    GT,//24
+    LT,//25
+    SEP,//26
+    OCB, //27 {
+    CCB, //28 }
+    OSB, //29 [
+    CSB, //30 ]
+    OPAR, //31 (
+    CPAR, //32 )
+    SC, //33 ;
+    CM, //34 ,
+    PN, //35 .
+    NUMBER,//36
+    INTEGER_LITERAL,//37
+    AND,//38
+    PLUS,//39
+    MINUS,//40
+    MULTI,//41
+    DIV,//42
+    ATTR,//43
+    NOT,//44
+    END_OF_FILE//45
 };
 
 class Token 
