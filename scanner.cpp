@@ -53,7 +53,7 @@ Scanner::nextToken()
 
     while (true)
     {
-        
+        int inicialPos;
         switch (state)
         {
             /*
@@ -68,6 +68,7 @@ Scanner::nextToken()
                 Comentários - state começa com o número 6
             */
             case 0:
+                inicialPos = pos;
                 //se for fim de arquivo
                 if (input[pos] == '\0'){
                     tok = new Token(END_OF_FILE);
@@ -164,11 +165,88 @@ Scanner::nextToken()
                 break;
 
             case 11:
+                {
                 //retorna um id
-                tok = new Token(ID);
+                string str = "";
                 pos--;
-                return tok;
+                for (int i = inicialPos; i < pos; i++){
+                    str += input[i];
+                }
+                if(str == "System" && (input.length() - pos + 1) >= 12) // System.out.println
+                {
+                    // nesse if é verificado se o System aparece no começo e se existe espaço restante na string input para comportar o ".out.println", que no caso ocuparia 12 posições
+                    for(int i = 0; i < 12; i++) {
+                        str += input[pos + i];
+                    }
+                    if(str == "System.out.println")
+                    {
+                        tok = new Token(SYSOUTPRINT);
+                        pos += 12;
+                    }
+                        
+                    else
+                        tok = new Token(ID);
+                }
+
+                else if(str == "boolean")
+                    tok = new Token(BOOLEAN);
                 
+                else if(str == "class")
+                    tok = new Token(CLASS);
+                
+                else if(str == "else")
+                    tok = new Token(ELSE);
+                
+                else if(str == "extends")
+                    tok = new Token(EXTENDS);
+                
+                else if(str == "false")
+                    tok = new Token(FALSE);
+                
+                else if(str == "if")
+                    tok = new Token(IF);
+                
+                else if(str == "int")
+                    tok = new Token(INT);
+                
+                else if(str == "length")
+                    tok = new Token(LENGTH);
+                
+                else if(str == "main")
+                    tok = new Token(MAIN);
+                
+                else if(str == "new")
+                    tok = new Token(NEW);
+                
+                else if(str == "public")
+                    tok = new Token(PUBLIC);
+                
+                else if(str == "return")
+                    tok = new Token(RETURN);
+                
+                else if(str == "static")
+                    tok = new Token(STATIC);
+                
+                else if(str == "String")
+                    tok = new Token(STRING);
+                
+                else if(str == "this")
+                    tok = new Token(THIS);
+
+                else if(str == "true")
+                    tok = new Token(TRUE);
+
+                else if(str == "void")
+                    tok = new Token(VOID);
+
+                else if(str == "while")
+                    tok = new Token(WHILE);
+
+                else
+                    tok = new Token(ID);
+                
+                return tok;
+                }
             case 20:
                 //se  for digito
                 if(!isdigit(input[pos]))
@@ -375,11 +453,27 @@ Scanner::lexicalError(string lexeme, int linha)
 
 string
 Scanner::returnName(int i){
-    string tokenNames[30] = {"UNDEF",
+    string tokenNames[46] = {"UNDEF",
                             "ID",
-                            "IF",
+                            "BOOLEAN",
+                            "CLASS",
                             "ELSE",
-                            "THEN",
+                            "EXTENDS",
+                            "FALSE",
+                            "IF",
+                            "INT",
+                            "LENGTH",
+                            "MAIN",
+                            "NEW",
+                            "PUBLIC",
+                            "RETURN",
+                            "STATIC",
+                            "STRING",
+                            "SYSOUTPRINT",
+                            "THIS",
+                            "TRUE",
+                            "VOID",
+                            "WHILE",
                             "RELOP",
                             "EQ",
                             "NE",
