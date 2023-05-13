@@ -42,16 +42,15 @@ enum Names
     SC, //33 ;
     CM, //34 ,
     PN, //35 .
-    NUMBER,//36
-    INTEGER_LITERAL,//37
-    AND,//38
-    PLUS,//39
-    MINUS,//40
-    MULTI,//41
-    DIV,//42
-    ATTR,//43
-    NOT,//44
-    END_OF_FILE//45
+    INTEGER_LITERAL,//36
+    AND,//37
+    PLUS,//38
+    MINUS,//39
+    MULTI,//40
+    DIV,//41
+    ATTR,//42
+    NOT,//43
+    END_OF_FILE//44
 };
 
 class Token 

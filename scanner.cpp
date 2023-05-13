@@ -256,7 +256,7 @@ Scanner::nextToken()
 
             case 21:
                 //retorna digito
-                tok = new Token(NUMBER);
+                tok = new Token(INTEGER_LITERAL);
                 pos--;
                 return tok;
 
@@ -386,13 +386,13 @@ Scanner::nextToken()
                 return tok;
 
             case 47:
-                // retorna token . (CM)
-                tok = new Token(SEP, CM);
+                // retorna token . (PN)
+                tok = new Token(SEP, PN);
                 return tok;
 
             case 48:
-                // retorna token , (PN)
-                tok = new Token(SEP, PN);
+                // retorna token , (CM)
+                tok = new Token(SEP, CM);
                 return tok;
 
             case 60:
@@ -489,7 +489,6 @@ Scanner::returnName(int i){
                             "SC",
                             "CM",
                             "PN",
-                            "NUMBER",
                             "INTEGER_LITERAL",
                             "AND",
                             "PLUS",
